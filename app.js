@@ -43,8 +43,30 @@ function render() {
   });
 }
 
-// Ajout — non implémenté (lot #03)
-document.getElementById('task-form').addEventListener('submit', e => { e.preventDefault(); });
+// Ajout — implémenté lot #03
+document.getElementById('task-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const titleInput = document.getElementById('task-title');
+  const title = titleInput.value.trim();
+  if (!title) {
+    document.getElementById('title-error').classList.remove('hidden');
+    return;
+  }
+  document.getElementById('title-error').classList.add('hidden');
+  const newTask = {
+    id: genId(),
+    title,
+    description: document.getElementById('task-desc').value.trim(),
+    status: document.getElementById('task-status').value,
+    priority: document.getElementById('task-priority').value,
+    createdAt: Date.now()
+  };
+  tasks.push(newTask);
+  saveTasks();
+  render();
+  titleInput.value = '';
+  document.getElementById('task-desc').value = '';
+});
 
 // Suppression — non implémentée (lot #05)
 function deleteTask(id) {}
