@@ -15,7 +15,6 @@ function escHtml(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// Persistance — non implémentée (lot #06)
 function saveTasks() {}
 function loadTasks() {}
 
