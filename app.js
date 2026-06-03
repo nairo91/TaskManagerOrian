@@ -1,19 +1,11 @@
-/**
- * TaskManager CPI — Logique applicative (VERSION STARTER)
- * Formation Git Bachelor CPI
- *
- * Ce fichier est le point de départ du projet.
- * Les fonctionnalités seront intégrées progressivement
- * via les lots fournis par l'enseignant à chaque TP.
- */
 'use strict';
 
 let tasks = [];
 let editingId = null;
 let currentFilter = 'all';
 
-const STORAGE_KEY   = 'taskmanager-cpi-v1';
-const STATUS_LABELS   = { todo: 'À faire', inprogress: 'En cours', done: 'Terminé' };
+const STORAGE_KEY = 'taskmanager-cpi-v1';
+const STATUS_LABELS = { todo: 'À faire', inprogress: 'En cours', done: 'Terminé' };
 const PRIORITY_LABELS = { low: 'Basse', medium: 'Moyenne', high: 'Haute' };
 
 function genId() {
@@ -27,12 +19,29 @@ function escHtml(str) {
 function saveTasks() {}
 function loadTasks() {}
 
-// Statistiques — non implémentées (lot #09 pour correction)
+// Statistiques — non implémentées (lot #09)
 function updateStats() {}
 
-// Rendu — non implémenté (lot #02)
+// Rendu — implémenté lot #02
 function render() {
-  document.getElementById('empty-msg').classList.remove('hidden');
+  const list = document.getElementById('task-list');
+  const emptyMsg = document.getElementById('empty-msg');
+  list.innerHTML = '';
+  if (tasks.length === 0) {
+    emptyMsg.classList.remove('hidden');
+    return;
+  }
+  emptyMsg.classList.add('hidden');
+  tasks.forEach(task => {
+    const li = document.createElement('li');
+    li.className = 'task-item';
+    li.dataset.id = task.id;
+    li.innerHTML = `
+      <span class="task-title">${escHtml(task.title)}</span>
+      <span class="task-status">${STATUS_LABELS[task.status] || task.status}</span>
+    `;
+    list.appendChild(li);
+  });
 }
 
 // Ajout — non implémenté (lot #03)
