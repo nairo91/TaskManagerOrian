@@ -36,12 +36,12 @@ function render() {
     li.innerHTML = `
       <span class="task-title">${escHtml(task.title)}</span>
       <span class="task-status">${STATUS_LABELS[task.status] || task.status}</span>
+      <button onclick="openEdit('${task.id}')">Modifier</button>
     `;
     list.appendChild(li);
   });
 }
 
-// Ajout — implémenté lot #03
 document.getElementById('task-form').addEventListener('submit', e => {
   e.preventDefault();
   const titleInput = document.getElementById('task-title');
