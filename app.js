@@ -18,10 +18,8 @@ function escHtml(str) {
 function saveTasks() {}
 function loadTasks() {}
 
-// Statistiques — non implémentées (lot #09)
 function updateStats() {}
 
-// Rendu — implémenté lot #02
 function render() {
   const list = document.getElementById('task-list');
   const emptyMsg = document.getElementById('empty-msg');
@@ -71,9 +69,31 @@ document.getElementById('task-form').addEventListener('submit', e => {
 // Suppression — non implémentée (lot #05)
 function deleteTask(id) {}
 
-// Modification — non implémentée (lot #04)
-function openEdit(id) {}
-document.getElementById('save-edit').addEventListener('click', () => {});
+// Modification — implémentée lot #04
+function openEdit(id) {
+  const task = tasks.find(t => t.id === id);
+  if (!task) return;
+  editingId = id;
+  document.getElementById('edit-title').value = task.title;
+  document.getElementById('edit-desc').value = task.description || '';
+  document.getElementById('edit-status').value = task.status;
+  document.getElementById('edit-priority').value = task.priority;
+  document.getElementById('edit-modal').classList.remove('hidden');
+}
+
+document.getElementById('save-edit').addEventListener('click', () => {
+  if (!editingId) return;
+  const idx = tasks.findIndex(t => t.id === editingId);
+  if (idx === -1) return;
+  tasks[idx].title = document.getElementById('edit-title').value.trim();
+  tasks[idx].description = document.getElementById('edit-desc').value.trim();
+  tasks[idx].status = document.getElementById('edit-status').value;
+  tasks[idx].priority = document.getElementById('edit-priority').value;
+  saveTasks();
+  render();
+  closeModal();
+});
+
 document.getElementById('cancel-edit').addEventListener('click', closeModal);
 document.getElementById('edit-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
